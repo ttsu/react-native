@@ -26,6 +26,11 @@ module.exports = yeoman.generators.NamedBase.extend({
       type: Boolean,
       defaults: false
     });
+    this.option('skip-windows', {
+      desc: 'Skip generating Windows files',
+      type: Boolean,
+      defaults: false
+    });
     this.option('upgrade', {
       desc: 'Specify an upgrade',
       type: Boolean,
@@ -79,6 +84,13 @@ module.exports = yeoman.generators.NamedBase.extend({
       this.fs.copyTpl(
         this.templatePath('index.android.js'),
         this.destinationPath('index.android.js'),
+        {name: this.name}
+      );
+    }
+    if (!this.options['skip-windows']) {
+        this.fs.copyTpl(
+        this.templatePath('index.windows.js'),
+        this.destinationPath('index.windows.js'),
         {name: this.name}
       );
     }

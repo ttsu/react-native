@@ -25,6 +25,7 @@ var path = require('path');
 var Promise = require('promise');
 var runAndroid = require('./runAndroid/runAndroid');
 var runIOS = require('./runIOS/runIOS');
+var runWindows = require('./runWindows/runWindows');
 var server = require('./server/server');
 var TerminalAdapter = require('yeoman-environment/lib/adapter.js');
 var yeoman = require('yeoman-environment');
@@ -47,6 +48,7 @@ var documentedCommands = {
   'android': [generateWrapper, 'generates an Android project for your app'],
   'run-android': [runAndroid, 'builds your app and starts it on a connected Android emulator or device'],
   'run-ios': [runIOS, 'builds your app and starts it on iOS simulator'],
+  'run-windows': [runWindows, 'builds your app and starts it on the Universal Windows Platform simulator'],
   'upgrade': [upgrade, 'upgrade your app\'s template files to the latest version; run this after ' +
                        'updating the react-native version in your package.json and running npm install']
 };
