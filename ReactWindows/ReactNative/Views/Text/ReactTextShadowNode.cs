@@ -38,6 +38,8 @@ namespace ReactNative.Views.Text
         private string _fontFamily;
         private Inline _inline;
 
+        private Thickness _paddings = new Thickness();
+
         /// <summary>
         /// Instantiates the <see cref="ReactTextShadowNode"/>.
         /// </summary>
@@ -126,7 +128,8 @@ namespace ReactNative.Views.Text
                     _textAlignment,
                     _lineHeight,
                     _numberOfLines,
-                    _letterSpacing);
+                    _letterSpacing,
+                    _paddings);
 
                 uiViewOperationQueue.EnqueueUpdateExtraData(ReactTag, args);
             }
@@ -316,6 +319,58 @@ namespace ReactNative.Views.Text
         }
 
         /// <summary>
+        /// Sets the paddings of the shadow node.
+        /// </summary>
+        /// <param name="index">The spacing type index.</param>
+        /// <param name="padding">The padding value.</param>
+        [ReactPropGroup(
+            ViewProps.Padding,
+            ViewProps.PaddingVertical,
+            ViewProps.PaddingHorizontal,
+            ViewProps.PaddingLeft,
+            ViewProps.PaddingRight,
+            ViewProps.PaddingTop,
+            ViewProps.PaddingBottom,
+            DefaultSingle = Undefined)]
+        public override void SetPaddings(int index, float padding)
+        {
+            var _padding = float.IsNaN(padding) ? 0 : padding;
+
+            switch (ViewProps.PaddingMarginSpacingTypes[index])
+            {
+                case CSSSpacingType.All:
+                    _paddings.Left = _padding;
+                    _paddings.Right = _padding;
+                    _paddings.Top = _padding;
+                    _paddings.Bottom = _padding;
+                    break;
+                case CSSSpacingType.Vertical:
+                    _paddings.Top = _padding;
+                    _paddings.Bottom = _padding;
+                    break;
+                case CSSSpacingType.Horizontal:
+                    _paddings.Left = _padding;
+                    _paddings.Right = _padding;
+                    break;
+                case CSSSpacingType.Left:
+                    _paddings.Left = _padding;
+                    break;
+                case CSSSpacingType.Right:
+                    _paddings.Right = _padding;
+                    break;
+                case CSSSpacingType.Top:
+                    _paddings.Top = _padding;
+                    break;
+                case CSSSpacingType.Bottom:
+                    _paddings.Bottom = _padding;
+                    break;
+                default:
+                    break;
+            }
+            MarkUpdated();
+        }
+
+        /// <summary>
         /// Marks a node as updated.
         /// </summary>
         protected override void MarkUpdated()
@@ -394,7 +449,8 @@ namespace ReactNative.Views.Text
                 textBlock.CharacterSpacing = textNode._letterSpacing;
                 textBlock.LineHeight = textNode._lineHeight;
                 textBlock.MaxLines = textNode._numberOfLines;
-                textBlock.TextAlignment = (TextAlignment)textNode._textAlignment;
+                textBlock.TextAlignment = textNode._textAlignment;
+                textBlock.Padding = textNode._paddings;
 
                 textBlock.Inlines.Add(ReactTextShadowNodeInlineVisitor.Apply(node));
 

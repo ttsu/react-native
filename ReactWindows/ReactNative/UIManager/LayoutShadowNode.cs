@@ -10,7 +10,10 @@ namespace ReactNative.UIManager
     /// </summary>
     public class LayoutShadowNode : ReactShadowNode
     {
-        private const float Undefined = CSSConstants.Undefined;
+        /// <summary>
+        /// Undefined float value.
+        /// </summary>
+        protected internal const float Undefined = CSSConstants.Undefined;
 
         /// <summary>
         /// Set the width of the shadow node.
@@ -165,7 +168,7 @@ namespace ReactNative.UIManager
             ViewProps.PaddingTop,
             ViewProps.PaddingBottom,
             DefaultSingle = Undefined)]
-        public void SetPaddings(int index, float padding)
+        public virtual void SetPaddings(int index, float padding)
         {
             SetPadding(ViewProps.PaddingMarginSpacingTypes[index], padding);
         }
